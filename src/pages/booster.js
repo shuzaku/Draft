@@ -9,24 +9,11 @@ const Deck = (props) => (
  </tr>
 );
 
-const BoosterBtn = () => (
-  <button onClick={() =>{drawCards()}}> draw </button>
-);
-
-function drawCards() {
-  var boosterSize = 10;
-  var randomCards = []
-  while(cards.length < boosterSize){
-    var randomCardIndex = Math.floor(Math.random() * records.length) + 1;
-    randomCards.push(records[randomCardIndex]);
-    records.splice(randomCardIndex, 1);
-  }
-  const cards = randomCards;
-};
  
 export default function RecordList() {
- const [records, cards, setRecords, setCards] = useState([]);
- 
+ const [records, setRecords] = useState([]);
+ const [ cards, setCards] = useState([]);
+
  // This method fetches the records from the database.
  useEffect(() => {
     async function getRecords() {
@@ -60,11 +47,31 @@ export default function RecordList() {
      );
    });
  }
+
+ 
+const BoosterBtn = () => (
+  <button onClick={() =>{drawCards()}}> draw </button>
+);
+
+ function drawCards() {
+  var boosterSize = 10;
+  var randomCards = []
+  while(randomCards.length < boosterSize){
+    var randomCardIndex = Math.floor(Math.random() * records.length) + 1;
+    randomCards.push(records[randomCardIndex]);
+    records.splice(randomCardIndex, 1);
+  }
+  const cards = randomCards;
+  setCards(cards);
+
+};
  
  // This following section will display the table with the records of individuals.
  return (
    <div>
      <h3>Booster</h3>
+     {BoosterBtn()}
+
      <table className="table table-striped" style={{ marginTop: 20 }}>
        <thead>
          <tr>
